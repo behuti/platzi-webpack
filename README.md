@@ -8,7 +8,7 @@ Webpack es un paquete de módulos estáticos para aplicaciones de JS modernas
 
 **Plugins** Extienden recursos para añadir configuraciones y particularidades de recursos externos
 
-## Apuntes
+## Apuntes 📋📋
 - Webpack construye un gráfico de dependencias que mapea cada módulo para convertirlo en uno o más módulos
 - Desde webpack 4 ya no dependemos de tener un archivo de configuración, debemos tener un punto de entrada dentro de una carpeta específica
 - Archivo index.js que va a partir de ahí todos los elementos de nuestra aplicación.
@@ -19,3 +19,16 @@ Webpack es un paquete de módulos estáticos para aplicaciones de JS modernas
   - Modo de producción
 - Opción para poder observar los cambios en tiempo real y poder recompilar nuestro proyecto y poder analizar cada cambio realizado.
 - Modos de performance permite configurar: Configuraciones de minificación, Carpeta destino de los elementos, Habilitar modos de desarrollo local (puerto específico, cambios in "Real Time").
+
+## Configuración del proyecto 🔧🔧🔧
+
+1. Inicializar con Git el proyecto en la carpeta deseada con `git init`
+2. Inicializar npm con `npm init`
+3. Abrir con Visual Studio Code con `code . -r`
+4. Crear la carpeta src, el source, donde va a vivir nuestro código.
+5. Dentro de src, crear el archivo **index.js**
+6. Instalar webpack y webpack-cli (para poder trabajar con comandos en la terminal) en el proyecto como dependencias de desarrollo con `npm install webpack webpack-cli -D`
+7. Al no tener webpack instalado de forma global, hay que ejecutar el comando `npx webpack`, el cual va a identificar nuestro archivo **index.js** o todos los archivos javascript y va a preparar todo nuestro prouyecto.❗❗❗Esto compilará nuestro proyecto y crea la carpeta dist de forma automática al no tener un archivo de configuración.
+8. `npx webpack --mode development` corre webpack en modo desarrollo, la cual al compilar activa una vista con mucho más detalles sobre lo que se compila.
+9. `npx webpack --mode production` optimiza todo el código al compilarlo.
+10. Dentro de la carpeta **src** creamos otra carpeta llamada **utils**, la cual va a contener el arhivo **sum.js** el cual contiene una función de suma y se exporta la función y luego es importada y ejecutada desde index.js, al compilarla dependiendo del modo el archivo **main.js** contendrá o una información detallada de webpack (development) o un autoejecutable minimizado y optimizado (producción).
