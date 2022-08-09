@@ -1,4 +1,5 @@
-const path = require('path');
+const path = require("path");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
@@ -9,4 +10,22 @@ module.exports = {
   resolve: {
     extensions: [".js"],
   },
+  module: {
+    rules: [
+      {
+        test: /\.m?.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+    ],
+  },
+  plugins: [
+    new HTMLWebpackPlugin({
+      inject: true,
+      template: "/public/index.html",
+      filename: "./index.html",
+    }),
+  ],
 };
