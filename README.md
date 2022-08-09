@@ -37,5 +37,79 @@ Webpack es un paquete de módulos estáticos para aplicaciones de JS modernas
 ## Recursos
 1. [JS-Portfolio](https://github.com/gndx/js-portfolio "Repositorio del proyecto de portafolio que genera datos random"). **Nota:** En el curso se clona directamente desde el repo, pero yo he bajado el .zip para luego incluirlo manualmente dentro del proyecto.
 
-### Capítulo 4
+## Instrucciones Capítulo 4
 1. Instalar Webpack como en el módulo visto anterior de configuración del proyecto y correr en modo productivo.
+
+## Configuración Webpack.config.js
+
+En la raíz del proyecto creamos el archivo **webpack.config.js**, acá vivirán todas las configuraciones referentes a la compilación.
+
+## Compilación con archivo de configuración
+Una vez añadido el archivo de la configuración el proyecto se puede compilar con el siguiente comando `npx webpack --mode production --config [archivo de configuración]`
+
+Para hacer más amigable la ejecución del script podemos añadirlo como un script en el archivo **package.json** en la sección de scripts del siguiente modo:
+```
+{
+  ...
+  "scripts": {
+    ...
+    "build" : "webpack --mode production"
+  }
+}
+```
+
+### 1. Path
+Es un elemento ya disponible en **node** por lo tanto no necesita instalación de otra dependencia, 
+
+```
+const path = require('path')
+```
+
+### 2. Modulo a exportar
+Vamos a crear un módulo que vamos a exportar con un objeto con la configuración deseada.
+
+```
+module.exports = {
+  // Aquí van a vivir todas las configuraciones
+}
+```
+
+### 3. Entry
+Nos va a permitir decir cual es el punto de entrada de nuestra aplicación. Esto es importante ya que debemos decir cual es el elemento inicial de nuestra aplicación.
+
+```
+{
+  ...
+  entry: '.src/index.js'
+}
+```
+### 4. Output
+Hacia donde vamos a enviar lo que prepara webpack, se declara en forma de objeto y contiene los siguientes elementos:
+
+- path: Dirección en la cual va a ser guardado el bundle de webpack.
+
+**path.resolve()** Nos permite saber en qué directorio está ubicado nuestro proyecto de forma relativa, esto evita problemas de especificación de directorios tanto local, como remotamente. Como segundo argumento se pone el nombre de la carpeta de la salida, **dist** es el estándar.
+
+- filename: Nombre del archivo del bundle, puede ser main.js o bundle.js, o ya de una forma más avanzada puede ser un hash.
+
+```
+{
+  ...
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js'
+  }
+}
+```
+
+### 5. Resolve
+Sirve para decirle a Webpack con qué estenciones vamos a trabajar.
+
+```
+{
+  ...
+  resolve: {
+    extensions: ['.js']
+  }
+}
+```
