@@ -1,6 +1,10 @@
 # Webpack
 Hola extrañ@ 👋👤, soy Eduardo Henao, y este es un repositorio con mis apuntes sobre el recorrido del curso de webpack de Platzi, espero que sea de ayuda, los commits están ordenados por capítulos, te invito a que vayas desde el capítulo inicial ya que al final solo vas a ver finalizado el proyecto, y la idea general es que puedas ver y analizar cada paso del proceso para entender cómo se construyó y para qué sirve cada variante de la configuración de Webpack. Enjoy 🤘🤘🤘
 
+## Créditos y menciones
+- [Platzi](https://platzi.com/home "Link a platzi") - Curso de Webpack
+- [Oscar Barajas Tavares](https://github.com/gndx/js-portfolio "Proyecto js-Portfolio") - Repositorio del profesor Oscar Barajas, el cual fue utilizado para hacer un proyecto práctico y modularizar sus archivos con Webpack.
+
 ## Qué es Webpack?
 Webpack es un paquete de módulos estáticos para aplicaciones de JS modernas
 
