@@ -201,3 +201,85 @@ Y después añadimos la sección de plugins:
   ]
 }
 ```
+
+## CSS Y Preprocesadores en Webpack
+
+### CSS plano
+
+Para poder trabajar con css y preprocesadores primero tenemos que instalar las dependencias correspondientes con el comando `npm install mini-css-extract-plugin css-loader -D`.
+
+Luego debemos crear una constante para requerir la dependencia de mini-css-extract-plugin, luego crear una nueva regla dentro de la propiedad rules de nuestro webpack.config.js de la siguiente forma, y por último añadir la instancia dentro de plugins.
+
+```
+const MiniCss = require("mini-css-extract-plugin");
+
+module.exports = {
+  ...
+  module: {
+    rules: [
+      ...
+      {
+        test: /\.css$/i,
+        use: [MiniCss.loader, "css-loader"],
+      },
+    ],
+  },
+  plugins: [
+    ...
+    new MiniCss(),
+  ],
+}
+```
+
+### Preprocesadores
+
+Para este proyecto en específico vamos a trabajar con stylus, entonces vamos instalar las dependencias de la siguiente forma `npm install stylus stylus-loader -D`
+Luego de esto vamos simplemente a modificar nuestra regla de CSS que habíamos añadido previamente y añadimos el formato _.styl_ a la expresión regular de la siguiente forma `test: /\.css|.styl$/i,`, y luego añadimos el loader dentro de la propiedad use:
+
+```
+use: [MiniCss.loader, "css-loader", "stylus-loader"],
+```
+
+## Copia de archivos con Webpack
+
+Vamos a utilizar el plugin _copy-webpack-plugin_, lo instalamos con el comando `npm install copy-webpack-plugin -D`, en el caso de este proyecto en particular vamos a configurarlo para copiar de la carpeta _src_ a la carpeta _dist_ de la siguiente forma:
+
+```
+const copyWebpack = require("copy-webpack-plugin");
+
+module.exports = {
+  ...
+
+  plugins: [
+    ...
+    new copyWebpack({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src", "assets/images"),
+          to: "assets/images",
+        },
+      ],
+    }),
+  ],
+}
+```
+
+## Loader de imagenes
+
+Vamos a añadir una configuración para imágenes implícita en webpack para no requerir loaders. Para esto vamos a añadir una regla dentro de la propiedad rules
+
+```
+module.exports = {
+  ...
+  module: {
+    rules: [
+      ...
+      {
+        test: /\.png$/i,
+        type: "asset/resource",
+      },
+    ],
+  }
+}
+
+```

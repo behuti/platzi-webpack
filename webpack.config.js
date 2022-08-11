@@ -1,5 +1,7 @@
 const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
+const MiniCss = require("mini-css-extract-plugin");
+const copyWebpack = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
@@ -19,6 +21,14 @@ module.exports = {
           loader: "babel-loader",
         },
       },
+      {
+        test: /\.css|.styl$/i,
+        use: [MiniCss.loader, "css-loader", "stylus-loader"],
+      },
+      {
+        test: /\.png$/i,
+        type: "asset/resource",
+      },
     ],
   },
   plugins: [
@@ -26,6 +36,15 @@ module.exports = {
       inject: true,
       template: "/public/index.html",
       filename: "./index.html",
+    }),
+    new MiniCss(),
+    new copyWebpack({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src", "assets/images"),
+          to: "assets/images",
+        },
+      ],
     }),
   ],
 };
