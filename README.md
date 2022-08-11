@@ -59,7 +59,6 @@ En la raíz del proyecto creamos el archivo **webpack.config.js**, acá vivirán
 Una vez añadido el archivo de la configuración el proyecto se puede compilar con el siguiente comando `npx webpack --mode production --config [archivo de configuración]`
 
 Para hacer más amigable la ejecución del script podemos añadirlo como un script en el archivo **package.json** en la sección de scripts del siguiente modo:
-
 ```
 {
   ...
@@ -70,36 +69,29 @@ Para hacer más amigable la ejecución del script podemos añadirlo como un scri
   }
 }
 ```
-
 ### Path
 
 Es un elemento ya disponible en **node** por lo tanto no necesita instalación de otra dependencia,
-
 ```
 const path = require('path')
 ```
-
 ### Modulo a exportar
 
 Vamos a crear un módulo que vamos a exportar con un objeto con la configuración deseada.
-
 ```
 module.exports = {
   // Aquí van a vivir todas las configuraciones
 }
 ```
-
 ### Entry
 
 Nos va a permitir decir cual es el punto de entrada de nuestra aplicación. Esto es importante ya que debemos decir cual es el elemento inicial de nuestra aplicación.
-
 ```
 {
   ...
   entry: '.src/index.js'
 }
 ```
-
 ### Output
 
 Hacia donde vamos a enviar lo que prepara webpack, se declara en forma de objeto y contiene los siguientes elementos:
@@ -109,7 +101,6 @@ Hacia donde vamos a enviar lo que prepara webpack, se declara en forma de objeto
 **path.resolve()** Nos permite saber en qué directorio está ubicado nuestro proyecto de forma relativa, esto evita problemas de especificación de directorios tanto local, como remotamente. Como segundo argumento se pone el nombre de la carpeta de la salida, **dist** es el estándar.
 
 - filename: Nombre del archivo del bundle, puede ser main.js o bundle.js, o ya de una forma más avanzada puede ser un hash.
-
 ```
 {
   ...
@@ -119,11 +110,9 @@ Hacia donde vamos a enviar lo que prepara webpack, se declara en forma de objeto
   }
 }
 ```
-
 ### Resolve
 
 Sirve para decirle a Webpack con qué estenciones vamos a trabajar.
-
 ```
 {
   ...
@@ -132,7 +121,6 @@ Sirve para decirle a Webpack con qué estenciones vamos a trabajar.
   }
 }
 ```
-
 ## Loaders
 
 ### Babel Loader
@@ -143,7 +131,6 @@ Prepara el código Js para todos los navegadores. Para añadirlo debemos usar el
 
 Para pasar la configuración de babel, debemos crear el archivo **.babelrc**, cabe aclarar que dicho archivo en los sistemas de ficheros UNIX este es oculto por defecto, por lo que puede que cuando inspecciones algún proyecto que contiene babel no lo veas debido a lo explicado anteriormente.
 Dentro de la configuración se crea un objeto donde se añaden las configuraciones de los presets y los plugins.
-
 ```
 {
   "presets": [
@@ -156,9 +143,7 @@ Dentro de la configuración se crea un objeto donde se añaden las configuracion
   ]
 }
 ```
-
 Luego de haber creado la configuración se debe añadir ese módulo a la configuración de webpack en el archivo **webpack.config.js** dentro de la propiedad _module_ que contiene una serie de elementos, como _rules_ que especifica las reglas de cómo vamos a trabajar con los diferentes tipos de archivos dentro del proyecto. _test_ nos permite saber qué tipo de extensiones vamos a trabajar y funciona con expresiones regulares. _exclude_ excluye los archivos especificados. _use_ especifica qué loader vamos a usar.
-
 ```
 {
   ...
@@ -175,7 +160,6 @@ Luego de haber creado la configuración se debe añadir ese módulo a la configu
   },
 }
 ```
-
 ## HTML en Webpack
 
 Debemos instalar el plugin de html con el siguiente comando `npm install html-webpack-plugin -D` y luego añadirlo en el webpack.config.js
@@ -184,9 +168,7 @@ Luego importamos la dependencia en el archivo de la siguiente manera:
 
 ```
 const HTMLWebpackPlugin = require('html-webpack-plugin')
-
 ```
-
 Y después añadimos la sección de plugins:
 
 ```
@@ -201,7 +183,6 @@ Y después añadimos la sección de plugins:
   ]
 }
 ```
-
 ## CSS Y Preprocesadores en Webpack
 
 ### CSS plano
@@ -230,7 +211,6 @@ module.exports = {
   ],
 }
 ```
-
 ### Preprocesadores
 
 Para este proyecto en específico vamos a trabajar con stylus, entonces vamos instalar las dependencias de la siguiente forma `npm install stylus stylus-loader -D`
@@ -239,11 +219,9 @@ Luego de esto vamos simplemente a modificar nuestra regla de CSS que habíamos a
 ```
 use: [MiniCss.loader, "css-loader", "stylus-loader"],
 ```
-
 ## Copia de archivos con Webpack
 
 Vamos a utilizar el plugin _copy-webpack-plugin_, lo instalamos con el comando `npm install copy-webpack-plugin -D`, en el caso de este proyecto en particular vamos a configurarlo para copiar de la carpeta _src_ a la carpeta _dist_ de la siguiente forma:
-
 ```
 const copyWebpack = require("copy-webpack-plugin");
 
@@ -263,7 +241,6 @@ module.exports = {
   ],
 }
 ```
-
 ## Loader de imagenes
 
 Vamos a añadir una configuración para imágenes implícita en webpack para no requerir loaders. Para esto vamos a añadir una regla dentro de la propiedad rules
@@ -283,7 +260,6 @@ module.exports = {
 }
 
 ```
-
 ## Loader de fuentes
 
 No hagan caso al curso, desde que existe Webpack 5 necesitan solo lo siguiente:
@@ -313,3 +289,55 @@ Luego en webpack añadimos la siguiente rule:
 ```
 
 **Nota:** Recuerda descargar las fuentes para poder ejecutar este paso.
+
+## Optimización: hashes, compresión y minificación de archivos
+
+Debemos agregar los siguientes plugins `npm install css-minimizer-webpack-plugin terser-webpack-plugin -D`
+
+Luego de esto añadimos la siquiente propiedad al module.exports
+```
+const CssMinimizerPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+
+module.exports {
+  ...
+  optimization: {
+    minimize: true,
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+  },
+}
+```
+Y para generar los archivos con hash modificamos los filename `filename: "assets/[name][contenthash].css",`
+
+## Webpack Alias
+Nos ayuda para darle un nombre a una ruta específica. Para esto solo es necesario añadirle al objeto resolve la propiedad alias de la siguiente manera:
+
+```
+resolve: {
+  ...
+  alias: {
+    "@utils": path.resolve(__dirname, "src/utils/"),
+    "@templates": path.resolve(__dirname, "src/templates/"),
+    "@styles": path.resolve(__dirname, "src/styles/"),
+    "@images": path.resolve(__dirname, "src/assets/images"),
+  },
+},
+```
+## Variables de entorno  
+  
+Espacio seguro donde tendremos las variables como conexiones a bases de datos o puntos de configuración que no queremos exponer en el código.
+
+Instalamos la dependencia que nos ayuda a trabajar con variables de entorno `npm install dotenv-webpack -D`  
+
+Creamos el archivo .env, el cual no debe estar en el repositorio, y un archivo .env-example donde hay un ejemplo.  
+
+En el archivo de configuración de Webpack plasmamos lo siguiente para poder hacer uso de las variables de entorno:
+
+```
+const DotEnv = require("dotenv-webpack");
+// Añadimos esta instancia a los plugins de webpack
+plugins: [
+    ...
+    new DotEnv(),
+  ],
+```
