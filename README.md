@@ -283,3 +283,33 @@ module.exports = {
 }
 
 ```
+
+## Loader de fuentes
+
+No hagan caso al curso, desde que existe Webpack 5 necesitan solo lo siguiente:
+
+Cambiar el import de las fonts desde google, y hacerlo manualmente con los archivos, esto lo logramos cambiando dicho import por un font-face de este modo:
+
+```
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('../assets/fonts/ubuntu-regular.woff2') format('woff2'),
+				url('../assets/fonts/ubuntu-regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+```
+
+Luego en webpack añadimos la siguiente rule:
+
+```
+{
+  test: /\.woff|.woff2$/i,
+  type: "asset/resource",
+  generator: {
+    filename: "assets/fonts/[name][ext]",
+  },
+},
+```
+
+**Nota:** Recuerda descargar las fuentes para poder ejecutar este paso.
