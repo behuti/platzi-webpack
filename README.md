@@ -346,3 +346,8 @@ plugins: [
 Debemos crear un nuevo archivo para tener un nuevo entorno de desarrollo. Lo llamaremos **webpack.config.dev.js**
 
 Copiamos toda nuestra configuración del otro archivo y añadimos la propiedad `mode: 'development` al objeto de configuración. Adicionalmente debemos reemplazar el script del package.json `"dev": "webpack --config webpack.config.dev.js"`
+
+### Activar modo watch
+
+1. En la configuración de dev añadimos la propiedad `watch: true`
+2. en el package.json añadimos el script `"build:watch": "webpack --watch --config webpack.config.js"`
