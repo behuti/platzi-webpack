@@ -341,3 +341,8 @@ plugins: [
     new DotEnv(),
   ],
 ```
+## Modo de Desarrollo
+
+Debemos crear un nuevo archivo para tener un nuevo entorno de desarrollo. Lo llamaremos **webpack.config.dev.js**
+
+Copiamos toda nuestra configuración del otro archivo y añadimos la propiedad `mode: 'development` al objeto de configuración. Adicionalmente debemos reemplazar el script del package.json `"dev": "webpack --config webpack.config.dev.js"`
